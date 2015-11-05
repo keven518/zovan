@@ -1,0 +1,1 @@
+<?php	return array ( 0 => 'catid', 1 => 'roleid', 2 => 'flag', 3 => 'action', '_autoinc' => false, '_type' => array ( 'catid' => 'smallint(5) unsigned', 'roleid' => 'smallint(5) unsigned', 'flag' => 'tinyint(1) unsigned', 'action' => 'varchar(30)', ), );?>
