@@ -1,4 +1,4 @@
-<html lang="en">
+<?php if (!defined('THINK_PATH')) exit();?><html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
@@ -79,28 +79,29 @@ input, select {
 <div class="bar bar-header bar-positive">
   <h1 class="title">账单系统</h1>
 </div>
-<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Bill/add')}">
-<div class="content has-header" ng-app="" ng-init="quantity=1;price=5">
+<form method='post' id="form_do" name="form_do" action="<?php echo U(GROUP_NAME. '/Bill/edit');?>">
+<div class="content has-header" ng-app="" ng-init="quantity=<?php echo ($vo["num"]); ?>;price=<?php echo ($vo["price"]); ?>">
 <div class="list">
+      <input type="hidden" name='id' value='<?php echo ($vo["id"]); ?>'>
     <label class="item item-input">
       <span class="input-label">名称：</span>
-      <input type="text" name='name'>
+      <input type="text" name='name' value='<?php echo ($vo["name"]); ?>'>
     </label>
     <label class="item item-input">
       <span class="input-label">单价：</span>
-      <input type="text" ng-model="price" name='price'>
+      <input type="text" ng-model="price" name='price' value='<?php echo ($vo["price"]); ?>'>
     </label>
     <label class="item item-input">
       <span class="input-label">数量：</span>
-      <input type="text" ng-model="quantity" name='num'>
+      <input type="text" ng-model="quantity" name='num' value='<?php echo ($vo["num"]); ?>'>
     </label>
     <label class="item item-input">
       <span class="input-label">总价：{{quantity * price}}</span>
-      <input type="text"  name='totalprice'>
+      <input type="text"  name='totalprice' value='<?php echo ($vo["totalprice"]); ?>'>
     </label>
     <label class="item item-input">
       <span class="input-label">购买时间：</span>
-      <input type="text"  name='buytime' id="appDate">
+      <input type="text"  name='buytime' id="appDate" value='<?php echo ($vo["buytime"]); ?>'>
     </label>
 
 	<div class="item item-input item-select">
@@ -137,7 +138,19 @@ input, select {
 </div>
 </form>
 
+<div class="tab-nav tabs">
 
+  <!-- Dashboard Tab -->
+  <ion-tab icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash"></ion-tab>
+
+  <!-- Chats Tab -->
+  <ion-tab icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/chats"></ion-tab>
+
+  <!-- Account Tab -->
+  <ion-tab icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account"></ion-tab>
+
+
+<a ng-class="{'tab-item-active': isTabActive(), 'has-badge':badge, 'tab-hidden':isHidden()}" ng-disabled="disabled()" class="tab-item tab-item-active" icon-on="ion-ios-pulse-strong" icon-off="ion-ios-pulse"><!-- ngIf: badge --><!-- ngIf: getIconOn() && isTabActive() --><i class="icon ion-ios-pulse-strong" ng-if="getIconOn() &amp;&amp; isTabActive()"></i><!-- end ngIf: getIconOn() && isTabActive() --><!-- ngIf: getIconOff() && !isTabActive() --><span class="tab-title ng-binding" ng-bind-html="title">Status</span></a><a ng-class="{'tab-item-active': isTabActive(), 'has-badge':badge, 'tab-hidden':isHidden()}" ng-disabled="disabled()" class="tab-item" icon-on="ion-ios-chatboxes" icon-off="ion-ios-chatboxes-outline"><!-- ngIf: badge --><!-- ngIf: getIconOn() && isTabActive() --><!-- ngIf: getIconOff() && !isTabActive() --><i class="icon ion-ios-chatboxes-outline" ng-if="getIconOff() &amp;&amp; !isTabActive()"></i><!-- end ngIf: getIconOff() && !isTabActive() --><span class="tab-title ng-binding" ng-bind-html="title">Chats</span></a><a ng-class="{'tab-item-active': isTabActive(), 'has-badge':badge, 'tab-hidden':isHidden()}" ng-disabled="disabled()" class="tab-item" icon-on="ion-ios-gear" icon-off="ion-ios-gear-outline"><!-- ngIf: badge --><!-- ngIf: getIconOn() && isTabActive() --><!-- ngIf: getIconOff() && !isTabActive() --><i class="icon ion-ios-gear-outline" ng-if="getIconOff() &amp;&amp; !isTabActive()"></i><!-- end ngIf: getIconOff() && !isTabActive() --><span class="tab-title ng-binding" ng-bind-html="title">Account</span></a></div>
 
 
     
