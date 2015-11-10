@@ -84,7 +84,7 @@ input, select {
       <div class="list">
 		<foreach name='list' item='p'>
         <div class="item item-button-right">
-          {$p.name}-{$p.totalprice}
+          {$p.name}—{$p.totalprice}—{$p['buytime']|date='Y-m-d',###}
           <a class="button-positive" style="float:right; display:block"  href="{:U(GROUP_NAME. '/Bill/del',array('id' => $p['id']))}">
             <i class="ion-close-round"></i>
           </a>
@@ -121,6 +121,22 @@ input, select {
                 startYear: currYear - 10, //开始年份
                 endYear: currYear + 10 //结束年份
           };
+
+          var buyDate = new Date({$vo.buytime}* 1000);
+          var buyDateM , buyDateD;
+          if((buyDate.getMonth()+1)<10){
+        	  buyDateM = '0' + (buyDate.getMonth()+1);
+          }else{
+        	  buyDateM = (buyDate.getMonth()+1);
+          }
+          if(buyDate.getDate()<10){
+        	  buyDateD = '0' + buyDate.getDate();
+          }else{
+        	  buyDateD = buyDate.getDate();
+          }
+          var buyDateStr = buyDate.getFullYear() +'-'+ buyDateM +'-'+ buyDateD;
+
+			$('#appDate').val(buyDateStr);
 
             $("#appDate").mobiscroll($.extend(opt['date'], opt['default']));
             var optDateTime = $.extend(opt['datetime'], opt['default']);

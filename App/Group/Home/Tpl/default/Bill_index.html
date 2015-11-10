@@ -95,8 +95,8 @@ input, select {
       <input type="text" ng-model="quantity" name='num'>
     </label>
     <label class="item item-input">
-      <span class="input-label">总价：{{quantity * price}}</span>
-      <input type="text"  name='totalprice'>
+      <span class="input-label">总价：</span>
+      <input type="text"  name='totalprice' value="{{quantity * price | currency : ''}}">
     </label>
     <label class="item item-input">
       <span class="input-label">购买时间：</span>

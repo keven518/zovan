@@ -83,7 +83,7 @@ input, select {
 
       <div class="list">
 		<?php if(is_array($list)): foreach($list as $key=>$p): ?><div class="item item-button-right">
-          <?php echo ($p["name"]); ?>-<?php echo ($p["totalprice"]); ?>
+          <?php echo ($p["name"]); ?>—<?php echo ($p["totalprice"]); ?>—<?php echo (date('Y-m-d',$p['buytime'])); ?>
           <a class="button-positive" style="float:right; display:block"  href="<?php echo U(GROUP_NAME. '/Bill/del',array('id' => $p['id']));?>">
             <i class="ion-close-round"></i>
           </a>
@@ -119,6 +119,22 @@ input, select {
                 startYear: currYear - 10, //开始年份
                 endYear: currYear + 10 //结束年份
           };
+
+          var buyDate = new Date(<?php echo ($vo["buytime"]); ?>* 1000);
+          var buyDateM , buyDateD;
+          if((buyDate.getMonth()+1)<10){
+        	  buyDateM = '0' + (buyDate.getMonth()+1);
+          }else{
+        	  buyDateM = (buyDate.getMonth()+1);
+          }
+          if(buyDate.getDate()<10){
+        	  buyDateD = '0' + buyDate.getDate();
+          }else{
+        	  buyDateD = buyDate.getDate();
+          }
+          var buyDateStr = buyDate.getFullYear() +'-'+ buyDateM +'-'+ buyDateD;
+
+			$('#appDate').val(buyDateStr);
 
             $("#appDate").mobiscroll($.extend(opt['date'], opt['default']));
             var optDateTime = $.extend(opt['datetime'], opt['default']);

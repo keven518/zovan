@@ -106,17 +106,11 @@ input, select {
 
 	<div class="item item-input item-select">
 	    <div class="input-label">
-	      类别：
+	      类别<?php echo ($vo["category"]); ?>：
 	    </div>
 	    <select class="kv_select" name='category'>
-	      <option selected="" value=1>生活用品</option>
-	      <option value=2>蔬菜</option>
-	      <option value=3>水果</option>
-	      <option value=4>交通</option>
-	      <option value=5>加餐</option>
-	      <option value=6>家里补贴</option>
-	      <option value=7>娱乐</option>
-	      <option value=8>项目公关应酬</option>
+	      <?php if(is_array($category)): foreach($category as $key=>$cate): if($cate["id"] == 1): ?><option selected value=<?php echo ($cate["id"]); ?>><?php echo ($cate["name"]); ?>:1</option>
+	     	<?php else: ?><option value=<?php echo ($cate["id"]); ?>><?php echo ($cate["name"]); ?></option><?php endif; endforeach; endif; ?>
 	    </select>
 	  </div>
 
@@ -138,19 +132,11 @@ input, select {
 </div>
 </form>
 
-<div class="tab-nav tabs">
-
-  <!-- Dashboard Tab -->
-  <ion-tab icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash"></ion-tab>
-
-  <!-- Chats Tab -->
-  <ion-tab icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/chats"></ion-tab>
-
-  <!-- Account Tab -->
-  <ion-tab icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account"></ion-tab>
-
-
-<a ng-class="{'tab-item-active': isTabActive(), 'has-badge':badge, 'tab-hidden':isHidden()}" ng-disabled="disabled()" class="tab-item tab-item-active" icon-on="ion-ios-pulse-strong" icon-off="ion-ios-pulse"><!-- ngIf: badge --><!-- ngIf: getIconOn() && isTabActive() --><i class="icon ion-ios-pulse-strong" ng-if="getIconOn() &amp;&amp; isTabActive()"></i><!-- end ngIf: getIconOn() && isTabActive() --><!-- ngIf: getIconOff() && !isTabActive() --><span class="tab-title ng-binding" ng-bind-html="title">Status</span></a><a ng-class="{'tab-item-active': isTabActive(), 'has-badge':badge, 'tab-hidden':isHidden()}" ng-disabled="disabled()" class="tab-item" icon-on="ion-ios-chatboxes" icon-off="ion-ios-chatboxes-outline"><!-- ngIf: badge --><!-- ngIf: getIconOn() && isTabActive() --><!-- ngIf: getIconOff() && !isTabActive() --><i class="icon ion-ios-chatboxes-outline" ng-if="getIconOff() &amp;&amp; !isTabActive()"></i><!-- end ngIf: getIconOff() && !isTabActive() --><span class="tab-title ng-binding" ng-bind-html="title">Chats</span></a><a ng-class="{'tab-item-active': isTabActive(), 'has-badge':badge, 'tab-hidden':isHidden()}" ng-disabled="disabled()" class="tab-item" icon-on="ion-ios-gear" icon-off="ion-ios-gear-outline"><!-- ngIf: badge --><!-- ngIf: getIconOn() && isTabActive() --><!-- ngIf: getIconOff() && !isTabActive() --><i class="icon ion-ios-gear-outline" ng-if="getIconOff() &amp;&amp; !isTabActive()"></i><!-- end ngIf: getIconOff() && !isTabActive() --><span class="tab-title ng-binding" ng-bind-html="title">Account</span></a></div>
+<div class="tabs tabs-icon-top"> 
+	<a class="tab-item "> <i class="icon ion-ios-home-outline"></i> 首页 </a> 
+	<a class="tab-item "> <i class="icon ion-ios-list-outline"></i> 记录 </a> 
+	<a class="tab-item"> <i class="icon ion-navigate"></i> 报表 </a>  
+</div>
 
 
     
@@ -173,7 +159,21 @@ input, select {
                 startYear: currYear - 10, //开始年份
                 endYear: currYear + 10 //结束年份
           };
+          var buyDate = new Date(<?php echo ($vo["buytime"]); ?>* 1000);
+          var buyDateM , buyDateD;
+          if((buyDate.getMonth()+1)<10){
+        	  buyDateM = '0' + (buyDate.getMonth()+1);
+          }else{
+        	  buyDateM = (buyDate.getMonth()+1);
+          }
+          if(buyDate.getDate()<10){
+        	  buyDateD = '0' + buyDate.getDate();
+          }else{
+        	  buyDateD = buyDate.getDate();
+          }
+          var buyDateStr = buyDate.getFullYear() +'-'+ buyDateM +'-'+ buyDateD;
 
+			$('#appDate').val(buyDateStr);
             $("#appDate").mobiscroll($.extend(opt['date'], opt['default']));
             var optDateTime = $.extend(opt['datetime'], opt['default']);
             var optTime = $.extend(opt['time'], opt['default']);

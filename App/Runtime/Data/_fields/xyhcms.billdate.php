@@ -1,0 +1,1 @@
+<?php	return array ( 0 => 'id', 1 => 'buydatetime', 2 => 'totalprice', '_autoinc' => true, '_pk' => 'id', '_type' => array ( 'id' => 'int(10) unsigned', 'buydatetime' => 'int(10) unsigned', 'totalprice' => 'float', ), );?>

@@ -20,11 +20,40 @@ class BillAction extends Action{
 				'price' => I('price'),
 				'totalprice' => I('totalprice'),
 				'category' => I('category'),
-				'buytime' => time()
+				'buytime' => strtotime(I('buytime'))
 			);
 			
 			if($id = M('bill')->add($data)) {
+//				echo $data['buytime'];
+				$billdate = M('billdate')->where(array('buydatetime' => $data['buytime']))->find();
+				$condition['buytime'] = $data['buytime'];
+				$totalprice = M('bill')->where($condition)->sum('totalprice');
 				
+				if($billdate){
+					//echo '有数据，要修改';
+//					print_r($billdate);
+					$billdate_data =array(
+						'totalprice' => $totalprice
+					);
+					$billdate_where['buydatetime' ] = $data['buytime'];
+					if (false !== M('billdate')->where($billdate_where)->save($billdate_data)) {
+						echo 'billdate修改成功';
+					}else{
+						echo 'billdate修改失败';
+					}
+				}else{
+					//echo '无数据，要新增';
+					$billdate_data =array(
+						'buydatetime' => $data['buytime'],
+						'totalprice' => $totalprice,
+					);
+					
+					if (false !== M('billdate')->add($billdate_data)) {
+						echo 'billdate添加成功';
+					}else{
+						echo 'billdate添加失败';
+					}
+				}
 			}
 		}
 	}
@@ -32,7 +61,7 @@ class BillAction extends Action{
 	public function blist(){
 		header("Content-Type: text/html;charset=utf-8"); 
 		$list = M('bill')->select();
-		print_r($list);
+//		print_r($list);
 		$this->list = $list;
 		$this->display();
 	}
@@ -40,9 +69,23 @@ class BillAction extends Action{
 	public function del(){
 		header("Content-Type: text/html;charset=utf-8"); 
 		$id = I('id',0 , 'intval');
-		echo $id;
+		$kv = M('bill')->find($id);
+		$condition['buytime'] = $kv['buytime'];
+		
 		if (M('bill')->delete($id)) {
 			echo '删除成功';
+			$totalprice = M('bill')->where($condition)->sum('totalprice');
+			echo $id.'<br>'.$totalprice;
+			exit;
+					$billdate_data =array(
+						'totalprice' => $totalprice
+					);
+					$billdate_where['buydatetime' ] = $data['buytime'];
+					if (false !== M('billdate')->where($billdate_where)->save($billdate_data)) {
+						echo 'billdate修改成功';
+					}else{
+						echo 'billdate修改失败';
+					}
 		}else{
 			echo '删除失败';
 		}
@@ -56,7 +99,9 @@ class BillAction extends Action{
 			exit();
 		}
 		$this->vo = M('bill')->find($id);
-		print_r($this->vo);
+		$this->category = M('bill_category')->select();
+//		print_r($this->vo);
+//		print_r($this->category);
 		$this->display();
 	}
 	
@@ -69,10 +114,23 @@ class BillAction extends Action{
 				'price' => I('price'),
 				'totalprice' => I('totalprice'),
 				'category' => I('category'),
-				'buytime' => time()
+				'buytime' => strtotime(I('buytime'))
 		);
+		
 		if (false !== M('bill')->save($data)) {
 			echo '修改成功';
+			$condition['buytime'] = $data['buytime'];
+			$totalprice = M('bill')->where($condition)->sum('totalprice');
+			
+					$billdate_data =array(
+						'totalprice' => $totalprice
+					);
+					$billdate_where['buydatetime' ] = $data['buytime'];
+					if (false !== M('billdate')->where($billdate_where)->save($billdate_data)) {
+						echo 'billdate修改成功';
+					}else{
+						echo 'billdate修改失败';
+					}
 		}else{
 			echo '修改失败';
 		}
